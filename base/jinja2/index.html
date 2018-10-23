@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %} To Do List{% endblock %}
+{% block content %}
+  <h1> My Website </h1>
+  <p> Hello {{name}} </p>
+  <form method="post" action="/done">
+  <ul>
+    {% for todo in todos %}
+      <li>
+        <input type="checkbox" value="{{todo.id}}" name="done" class="form-check-input">
+        {% if todo.done %}
+        <s>{{todo}}</s>
+        {% else %}
+        {{todo}}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <input type="submit" value="Finished">
+</form>
+  <form action="/" method="post">
+  {{new_todo}}
+  <input type="submit" value="Submit">
+</form>
+<form action="/delete" method="post">
+  <input type="submit" value="Delete Finished">
+</form>
+{% endblock %}
