@@ -5,7 +5,6 @@ from rest_framework import viewsets, views, response, status
 from base import models, serializers
 
 
-
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = serializers.UserSerializer
@@ -26,20 +25,20 @@ class SessionView(views.APIView):
         user_serializer = serializers.UserSerializer(user)
         user_data = user_serializer.data
         return response.Response(data=user_data)
+
     def post(self, request):
         serializer = serializers.SessionSerializer(data=request.data)
         if serializer.is_valid():
-            username = serializer.data['username']
-            password = serializer.data['password']
+            username = serializer.data["username"]
+            password = serializer.data["password"]
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 user_serializer = serializers.UserSerializer(user)
                 user_data = user_serializer.data
                 return response.Response(data=user_data, status=status.HTTP_201_CREATED)
-        error_message = {'error': 'Invalid username or password'}
+        error_message = {"error": "Invalid username or password"}
         return response.Response(data=error_message, status=status.HTTP_400_BAD_REQUEST)
-
 
     def delete(self, request):
         logout(request)

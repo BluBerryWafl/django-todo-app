@@ -7,21 +7,21 @@ from base import models
 class ToDoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ToDo
-        fields = ('id', 'text', 'user', 'done')
-        read_only_fields = ('id', 'user')
+        fields = ("id", "text", "user", "done")
+        read_only_fields = ("id", "user")
 
     def create(self, validated_data):
-        if self.context['request'].user.is_authenticated is False:
+        if self.context["request"].user.is_authenticated is False:
             raise PermissionDenied
-        validated_data['user'] = self.context['request'].user
+        validated_data["user"] = self.context["request"].user
         return super().create(validated_data)
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username')
-        read_only_fields = ('id', 'username')
+        fields = ("id", "username")
+        read_only_fields = ("id", "username")
 
 
 class SessionSerializer(serializers.Serializer):
